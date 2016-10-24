@@ -12,6 +12,10 @@ def init():
 	if filename == None:
 		print "no video files in directory"
 		quit()
+	
+	# test code
+	#print getVidFile()
+	#quit()
 
 	# unused
 	#global procID
@@ -57,11 +61,22 @@ def loop():
 	#loop = False
 
 		
+# hard-coded, return director for videos, which at this point is on a USB drive one level up
+def getVidDirectory():
+	return "../usbdrv/"
 
+# dirty hack, we just look for anything that contains the string ".mp4" in it
 def getVidFile():
-	filename = "trvloop_long_2.mp4"
-#	return None
-	return filename
+	filename = "trv900.mp4"
+
+	# includes all directories and files
+	files = os.listdir(getVidDirectory())
+	
+	for file in files:
+		if ".mp4" in file:
+			return file
+	
+	return None
 
 
 # open a subprocess which will look omxplayer
@@ -69,7 +84,7 @@ def getVidFile():
 def playVideo(filename):
 	global procID
 	fileWrite(filename)
-	process = subprocess.Popen(['omxplayer','--loop','../usbdrv/' + filename])
+	process = subprocess.Popen(['omxplayer','--loop',getVidDirectory() + filename])
 	procID = process.pid
 #	fileWrite("omxplayer proc ID = " + str(procID))
 
