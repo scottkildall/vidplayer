@@ -7,6 +7,11 @@ import time
 # initialize the pygame environment, which we use to display an image
 def init():
 	global screen
+	
+	filename = getVidFile()
+	if filename == None:
+		print "no video files in directory"
+		quit()
 
 	# unused
 	#global procID
@@ -19,12 +24,7 @@ def init():
 	screen.fill((255,0,0))
 	
 	# plays first file on drive
-	filename = getVidFile()
-	if fileName == None:
-		print "no video files on drive, exiting"
-	else:
-		playVideo('trvloop_full.mp4')
-
+	playVideo(filename)
 
 # exit loop on keydown
 def loop():
@@ -59,7 +59,8 @@ def loop():
 		
 
 def getVidFile():
-	filename = "trvloop_full.mp4"
+	filename = "trvloop_long_2.mp4"
+#	return None
 	return filename
 
 
@@ -67,9 +68,10 @@ def getVidFile():
 # omxplayer has an annoying loop message, so make your loop 30 min long to minimize the damaage
 def playVideo(filename):
 	global procID
-	process = subprocess.Popen(['omxplayer','--loop','usbdrv/vids/' + filename])
+	fileWrite(filename)
+	process = subprocess.Popen(['omxplayer','--loop','../usbdrv/' + filename])
 	procID = process.pid
-	fileWrite("omxplayer proc ID = " + str(procID))
+#	fileWrite("omxplayer proc ID = " + str(procID))
 
 
 # simple append-to-file logger, change type do "a"
